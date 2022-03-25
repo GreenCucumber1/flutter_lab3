@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
-Future<WeatherHTTP> fetchFanFromServer(String url) async{
-  //final response = await http.get(Uri.parse(url));
-  final response = await http.get(Uri.parse(
-   "https://api.weatherbit.io/v2.0/forecast/daily?lat=35.7796&lon=-78.6382&key=5e2805de11cd4b7baad01f51ed9c7a23&include=minutely"));
-  print(jsonDecode(response.body));
+Future<WeatherHTTP> fetchFanFromServer(String x,String y) async{
+  String qwer="https://api.weatherbit.io/v2.0/forecast/daily?lat=${x}&lon=${y}&key=5e2805de11cd4b7baad01f51ed9c7a23&include=minutely";
+  final response = await http.get(Uri.parse(qwer));
+  //final response = await http.get(Uri.parse(
+   //"https://api.weatherbit.io/v2.0/forecast/daily?lat=35.7796&lon=-78.6382&key=5e2805de11cd4b7baad01f51ed9c7a23&include=minutely"));
+  //print(jsonDecode(response.body));
   return WeatherHTTP.fromJson(jsonDecode(response.body));
 }
 
@@ -21,6 +22,8 @@ class WeatherHTTP {
   final double lat ;
   final double lon ;
   final List<dynamic> data;
+
+  
 
 const WeatherHTTP({ 
   required this.city_name,
@@ -43,6 +46,7 @@ const WeatherHTTP({
       lon: json['lon'],
       
     );
+    
   }
 }
 
@@ -69,7 +73,7 @@ class _SecondPageState extends State<SecondPage> {
       ),
         body: Center(
           child: FutureBuilder<WeatherHTTP>(
-            future: fetchFanFromServer(widget.url),
+            future: fetchFanFromServer(widget.url,widget.url),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                return Column(
@@ -83,9 +87,14 @@ class _SecondPageState extends State<SecondPage> {
                     Text("Lon: " + snapshot.data!.lon.toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.0),),
                     Text("Timezone: " + snapshot.data!.timezone,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.0),),
                     Text("And other data:",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.0),),
-                    Text(snapshot.data!.data[5].toString(),textAlign: TextAlign.center)
+                    Text(snapshot.data!.data[2].toString(),textAlign: TextAlign.center),
+                    
+                    
                   ],  
-                ); 
+                );
+
+                    
+                
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }
