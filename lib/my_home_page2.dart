@@ -5,30 +5,46 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 
 Future<WeatherHTTP> fetchFanFromServer(String url) async{
-  final response = await http.get(Uri.parse(url));
+  //final response = await http.get(Uri.parse(url));
+  final response = await http.get(Uri.parse(
+   "https://api.weatherbit.io/v2.0/forecast/daily?lat=35.7796&lon=-78.6382&key=5e2805de11cd4b7baad01f51ed9c7a23&include=minutely"));
+  print(jsonDecode(response.body));
   return WeatherHTTP.fromJson(jsonDecode(response.body));
 }
 
 class WeatherHTTP {
 
-  final String snow ;
+  final String city_name ;
+  final String state_code ;
+  final String country_code ;
+  final String timezone ;
+  final double lat ;
+  final double lon ;
+  final List<dynamic> data;
 
-  
-
-const WeatherHTTP({
-  required this.snow,
+const WeatherHTTP({ 
+  required this.city_name,
+  required this.state_code,
+  required this.country_code,
+  required this.timezone,
+  required this.data,
+  required this.lat,
+  required this.lon,
   });
   
   factory WeatherHTTP.fromJson(Map<String,dynamic> json) {
     return WeatherHTTP(
-      snow: json['snow'],
-    
-
+      city_name: json['city_name'],
+      state_code: json['state_code'],
+      country_code: json['country_code'],
+      timezone: json['timezone'],
+      data: json['data'],
+      lat: json['lat'],
+      lon: json['lon'],
+      
     );
   }
 }
-
-
 
 class SecondPage extends StatefulWidget {
   const SecondPage({
@@ -42,43 +58,42 @@ class SecondPage extends StatefulWidget {
 }
 
 class _SecondPageState extends State<SecondPage> {
+  final _formKey = GlobalKey<FormState>();
   late Future<WeatherHTTP> futureFanFromServer;
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fetch Data Example',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
+    return Scaffold(
+      key: _formKey,
+      appBar: AppBar(
+        title: Text('Back'),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Fetch Data Example'),
-        ),
         body: Center(
           child: FutureBuilder<WeatherHTTP>(
             future: fetchFanFromServer(widget.url),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-               /*return Column(
+               return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(snapshot.data!.city_name),
-                    Text(snapshot.data!.country_code),
                     
-                  ],
-                );
-                */
-                return Text(snapshot.data!.snow);
+                    Text("City name: " + snapshot.data!.city_name,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.0),),
+                    Text("State code: " + snapshot.data!.state_code,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.0),),
+                    Text("Country code: " + snapshot.data!.country_code,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.0),),
+                    Text("Lat: " + snapshot.data!.lat.toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.0),),
+                    Text("Lon: " + snapshot.data!.lon.toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.0),),
+                    Text("Timezone: " + snapshot.data!.timezone,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.0),),
+                    Text("And other data:",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.0),),
+                    Text(snapshot.data!.data[5].toString(),textAlign: TextAlign.center)
+                  ],  
+                ); 
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }
-
-              // By default, show a loading spinner.
               return const CircularProgressIndicator();
             },
           ),
         ),
-      ),
+      
     );
   }
 }

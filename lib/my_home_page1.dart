@@ -23,30 +23,33 @@ class _MyHomePageFromState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         title: const Text("WeatherBit API"),
       ),
       body: Center (
+        
         child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              color: Colors.green,
-            ),
-          ),
+          margin: const EdgeInsets.all(15.0),
+          color: Color.fromARGB(255, 218, 233, 233),
           width: 1200,
           height: 600,
+          
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Padding(
-                padding: EdgeInsets.only(bottom: 100),
-                
-              ),
+                padding: EdgeInsets.only(bottom: 100),),
               const Padding(
                 padding: EdgeInsets.all(8),
                 child: Text('Print your http',
                     style: TextStyle(fontSize: 25, color: Colors.black)),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8),
+                child: Text('Use the URL with /forecast/daily \nFor example use this URL: \nhttps://api.weatherbit.io/v2.0/forecast/daily?lat=35.7796&lon=-78.6382&key=5e2805de11cd4b7baad01f51ed9c7a23&include=minutely\n',
+                    style: TextStyle(fontSize: 17, color: Colors.black)),
+                    
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
