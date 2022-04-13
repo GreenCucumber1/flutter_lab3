@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:teplov_lab2/provider.dart';
 import 'my_home_page1.dart';
 
 class MyApp extends StatelessWidget {
@@ -6,12 +8,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(      
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_)=> InputProvider(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(      
+          primarySwatch: Colors.blue,
+        ),
+        home:  MyHomePage(),
       ),
-      home: const MyHomePage(),
     );
   }
 }
