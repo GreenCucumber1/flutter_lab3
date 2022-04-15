@@ -6,12 +6,6 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 
 
-
-
-
-
-
-
 class WeatherHTTP {
  // final int statusCode;
  final String city_name ;
@@ -52,7 +46,9 @@ class InputProvider with ChangeNotifier {
   Future<void> fetchStatusCode(String x,String y) async {
     _isLoading = true;
     notifyListeners();
-    String qwer="https://api.weatherbit.io/v2.0/forecast/daily?lat=${x}&lon=${y}&key=5e2805de11cd4b7baad01f51ed9c7a23&include=minutely";
+    var x1=num.parse(x).toDouble();
+    var y1=num.parse(y).toDouble();
+    String qwer="https://api.weatherbit.io/v2.0/forecast/daily?lat=${x1}1&lon=${y1}1&key=5e2805de11cd4b7baad01f51ed9c7a23&include=minutely";
     final response = await http.get(Uri.parse(qwer));
     _qwer = WeatherHTTP.fromJson(jsonDecode(response.body));
     _isLoading = false;

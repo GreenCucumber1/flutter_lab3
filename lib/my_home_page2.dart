@@ -37,7 +37,7 @@ class SecondPage extends StatelessWidget {
               else if (provider.qwer != null)
               
                 Text("City name: " + provider.qwer!.city_name.toString()+"\nState code: " + provider.qwer!.state_code.toString()+"\nCountry code: " 
-                + provider.qwer!.country_code.toString()+"\nLat: " + provider.qwer!.lat.toString()+"\nLon: " + provider.qwer!.lon.toString()+"\nTimezone: " + provider.qwer!.timezone.toString()
+                + provider.qwer!.country_code.toString()+"\nLat: "+ url+"\nLon: "+url1 +"\nTimezone: " + provider.qwer!.timezone.toString()
                 ,style: TextStyle(fontSize: 17.0),)
                
                 
